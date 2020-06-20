@@ -1,0 +1,31 @@
+import React,{Component} from 'react';
+import {Link} from 'react-router-dom';
+
+class Budget extends Component{
+	render(){
+		if(this.props.itemid==""||this.props.itemid==undefined){
+			var link = "/share/"+this.props.budgetid;
+			var key = this.props.budgetid;
+		}
+		else {
+
+			var link = "/budget/"+this.props.itemid;
+			var key = this.props.itemid;
+		}
+		
+		return (
+			<Link to={link} key={key}>
+			<div className='budget'>
+							<span className="itemname">
+								{this.props.budgetname}
+							</span>
+							<span className='itemprice'>
+							&#8358;<span className="total" total={this.props.budgetprice*this.props.quantity}> {this.props.budgetprice*this.props.quantity} </span> - Quantity : {this.props.quantity} at &#8358; {this.props.budgetprice}
+
+							</span>
+			</div>
+			</Link>
+		)
+	}
+}
+export default Budget;

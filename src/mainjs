@@ -1,0 +1,17 @@
+import React,{Component} from 'react';
+
+class Main extends Component {
+	
+	componentDidMount(){
+		if(localStorage.getItem("budgetuserset")==undefined){
+			this.props.history.push("/");
+		}
+		
+	}
+	render(){
+		return (
+
+		)
+	}
+
+}
