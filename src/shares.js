@@ -17,7 +17,7 @@ export default class shared extends Component{
    		text:'loading',
    		footer:"<i class='fa fa-spinner fa-spin'></i>",	
    		showCancelButton:false,
-   		//allowOutsideClick:false,
+   		allowOutsideClick:false,
    		showConfirmButton:false,
    	})
    }
@@ -32,7 +32,7 @@ export default class shared extends Component{
 			 var jwt = localStorage.jwt;
 			 var req = email+"&^%"+jwt;
 		
-			fetch("https://novling.000webhostapp.com/budgetapp/shares.php",{
+			fetch("budgetapp/shares.php",{
 				method:"POST",
 				body:req,
 			})

@@ -7,7 +7,7 @@ class Details extends Component{
    		text:'loading',
    		footer:"<i class='fa fa-spinner fa-spin'></i>",	
    		showCancelButton:false,
-   		//allowOutsideClick:false,
+   		allowOutsideClick:false,
    		showConfirmButton:false,
    	})
    
@@ -34,7 +34,7 @@ class Details extends Component{
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt+"&^%"+budgetid;
-			fetch("https://novling.000webhostapp.com/budgetapp/details.php",{
+			fetch("budgetapp/details.php",{
 				method:"POST",
 				body:req,
 			})
@@ -63,7 +63,7 @@ class Details extends Component{
 					this.loading();
 					//delete operation
 				//console.log("delete");	
-				fetch("https://novling.000webhostapp.com/budgetapp/delete.php",{
+				fetch("backend/budgetapp/delete.php",{
 				method:"POST",
 				body:req,
 			})

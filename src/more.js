@@ -17,7 +17,7 @@ export default class More extends Component{
    		text:'loading',
    		footer:"<i class='fa fa-spinner fa-spin'></i>",	
    		showCancelButton:false,
-   		//allowOutsideClick:false,
+   		allowOutsideClick:false,
    		showConfirmButton:false,
    	})
    }
@@ -63,7 +63,7 @@ export default class More extends Component{
     					else {
     						this.setState({edit:0});
     					}
-    			console.log(this.state.edit);
+
 				this.handleNew();
     				})
 
@@ -112,13 +112,38 @@ export default class More extends Component{
 
 	handleNew(){
 		this.loading();
+		var budgetname;
+		Swal.fire({
+			text:"Enter a name for this budget",
+			confirmButtonText:"Create",
+			allowEscapeKey:false,
+			allowOutsideClick:true,
+			showCloseButton:true,
+			cancelButtonText:"Cancel",
+			input:"text",
+			backdrop:"#ffffff",
+			background:"#ffc107",
+			inputAttributes:{
+				minlength:3,
+				maxlength:30,
+				required:true,
+			},
+			customClass:{
+				confirmButton:'bg-warning',
+				cancelButtonText:'bg-danger'
+			},
+			footer:'A name can be a theme or purpose of this budget',
+		})
+		.then((budgetname)=>{
+			if(budgetname.value){
+				budgetname =budgetname.value;
 		const user =JSON.parse(atob(localStorage.budgetuser));
 			var {username,email} = user;
 			 username = atob(username);
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt+"&^%"+this.state.edit;
-			fetch("https://novling.000webhostapp.com/budgetapp/sharenew.php",{
+			fetch("budgetapp/sharenew.php",{
 				method:"POST",
 				body:req,
 			})
@@ -128,7 +153,7 @@ export default class More extends Component{
 				if(data.code==200){
 					Swal.fire({
 						icon:'success',
-						html:"Your Budget sharing code is <br/><u>"+data.token+"</u> and the sharing link is <a target='_blank' href='http://192.168.43.70:3000/shared/"+data.token+"' class='text-yellow'>Budget Link</a> ",
+						html:"Your Budget sharing code is <br/><u>"+data.token+"</u> and the sharing link is <a target='_blank' href='shared/"+data.token+"' class='text-yellow'>Budget Link</a> ",
 						footer:'Budget Code:'+data.token,
 						confirmButtonText:'Open Budget',
 						showCancelButton:true,
@@ -166,17 +191,48 @@ export default class More extends Component{
 			})
 			})
 	
-	}
 
+			}
+			else {
+				this.handleNew();
+			}
+		})
+	}
+//https://novling.000webhostapp.com/budgetapp/
 	handleExist(){
 		this.loading();
+		var budgetname;
+		Swal.fire({
+			text:"Enter a name for this budget",
+			confirmButtonText:"Create",
+			allowEscapeKey:false,
+			allowOutsideClick:true,
+			showCloseButton:true,
+			cancelButtonText:"Cancel",
+			input:"text",
+			backdrop:"#ffffff",
+			background:"#ffc107",
+			inputAttributes:{
+				minlength:3,
+				maxlength:30,
+				required:true,
+			},
+			customClass:{
+				confirmButton:'bg-warning',
+				cancelButtonText:'bg-danger'
+			},
+			footer:'A name can be a theme or purpose of this budget',
+		})
+		.then((budgetname)=>{
+			if(budgetname.value){
+				budgetname =budgetname.value;
 		const user =JSON.parse(atob(localStorage.budgetuser));
 			var {username,email} = user;
 			 username = atob(username);
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
-			 const req = email+"&^%"+jwt+"&^%"+this.state.edit;
-			fetch("https://novling.000webhostapp.com/budgetapp/sharexist.php",{
+			 const req = email+"&^%"+jwt+"&^%"+this.state.edit+"&^%"+budgetname;
+			fetch("budgetapp/sharexist.php",{
 				method:"POST",
 				body:req,
 			})
@@ -186,7 +242,7 @@ export default class More extends Component{
 				if(data.code==200){
 					Swal.fire({
 						icon:'success',
-						html:"Your Budget sharing code is <br/><u>"+data.token+"</u> and the sharing link is <a target='_blank' href='http://192.168.43.70:3000/shared/"+data.token+"' class='text-yellow'>Budget Link</a> ",
+						html:"Your Budget sharing code is <br/><u>"+data.token+"</u> and the sharing link is <a target='_blank' href='shared/"+data.token+"' class='text-yellow'>Budget Link</a> ",
 						footer:'Budget Code:'+data.token,
 						confirmButtonText:'Share <i class="fa fa-share"></i>',
 						showCancelButton:true,
@@ -206,7 +262,7 @@ export default class More extends Component{
 							if(navigator.share){
 						   navigator.share({
 						      title: username+' shared a budget with you on BudgetApp. Budget Code is'+data.token,
-						      url: "http://192.168.43.70:3000/shared/"+data.token,
+						      url: "https://budgetty.now.sh/#/shared/"+data.token,
 						    }).then(() => {
 						      throw 'Thanks for sharing!';
 						    })
@@ -234,6 +290,11 @@ export default class More extends Component{
 				this.props.history.push("/app");
 			})
 			})
+			}
+			else {
+				this.handleExist();
+			}
+		})
 	}
 	componentDidMount(){
 	if(localStorage.budgetuserset=="true"&&localStorage.jwt!=undefined&&localStorage.budgetuser!=undefined&&localStorage.budgetuser!=''&&localStorage.jwt!=''){

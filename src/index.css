@@ -93,3 +93,48 @@ code {
 .reviewtb tr {
   border-bottom: 2px solid #ffc107;
 }
+.bell{
+  position: absolute;
+  right: 15%;
+}
+.col-md-6.bbtn {
+    color: #fff;
+    font-size: 15px;
+    font-family: lato;
+    font-weight: 100;
+    letter-spacing: 1px;
+    transition: .3s;
+    padding: 10px;
+    cursor: pointer;
+}
+.bbtn.using {
+  background: #ffffff !important;
+  color: #ffc107 !important;
+
+  border-bottom:1px solid #ffc107;
+}
+.icon{
+  font-size: 22px;
+}
+main nav{
+  position: fixed;
+    top: 9%;
+    background: #ffc100;
+    width: 100%;
+    right: 0;
+    left: 0;
+    text-align: center;
+}
+.com{
+  display: flex;
+   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7);
+}
+
+.bbtn.using:hover{
+   background: #ffc107 !important;
+   color: #ffffff !important;
+}
+.bbtn:hover{
+  background: #ffffff !important;
+  color: #ffc107 !important;
+}

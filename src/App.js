@@ -15,6 +15,8 @@ import More from './more';
 import Shared from './shared';
 import Shares from './shares';
 import Sharedet from './sharedet';
+import Notify from './notifications';
+import ShareDetails from './ssh';
 
 class App extends Component  {
 
@@ -30,9 +32,11 @@ render(){
     <Route path="/app" component={Main}/>
     <Route path="/add" component={Add}/>
     <Route path="/more" component={More}/>
+    <Route path="/notifications" component={Notify}/>
     <Route exact path="/shared" component={Shares}/>
     <Route path="/budget/:budgetid" component={Details}/>
     <Route path="/shares/:budgetcode" component={Sharedet}/>
+    <Route path="/share/:code/:budgetid" component={ShareDetails}/>
     <Route path="/logout" component={Logout}/>
     </HashRouter>
   );

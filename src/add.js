@@ -13,7 +13,7 @@ loading(){
    		text:'loading',
    		footer:"<i class='fa fa-spinner fa-spin'></i>",	
    		showCancelButton:false,
-   		//allowOutsideClick:false,
+   		allowOutsideClick:false,
    		showConfirmButton:false,
    	})
    
@@ -103,6 +103,12 @@ componentDidMount(){
 			const name = arr[0];
 			const price = arr[1] ;
 			const quantity = arr[2];
+			 if(price==0||price=="0"){
+						throw "Price must be greater than zero(0)";
+			}
+			else if(quantity==0||quantity=="0"){
+				throw 'Quantity must be more than zero(0)';
+			}
 			var arr =  [name,price,quantity];
 			arr.forEach((item,index)=>{
 				try {
@@ -111,6 +117,9 @@ componentDidMount(){
 					}
 					else if(item.indexOf("~")>-1){
 						throw "Invalid Item details";
+					}
+					else if(price==0){
+						throw "Price must be greater than zero(0)"
 					}
 				}
 				catch(err){
@@ -129,7 +138,7 @@ componentDidMount(){
 			const obj =  name+"@"+price+"@"+quantity+"@"+jwt;
 			//console.log(obj);
 			this.loading();
-			fetch("https://novling.000webhostapp.com/budgetapp/addbudget.php",{
+			fetch("budgetapp/addbudget.php",{
 				method:"POST",
 				body:obj,	
 			})

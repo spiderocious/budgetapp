@@ -14,6 +14,7 @@ export default class Main extends Component {
 		displaybudgets:'block',
 		budgets:'',
 		locked:true,
+		displayload:"none",
 	}
 		this.handleAdd = this.handleAdd.bind(this);
 		this.handleSigned = this.handleSigned.bind(this);
@@ -58,27 +59,18 @@ export default class Main extends Component {
 			this.props.history.push("/");
 		}
 		else {
+			this.setState({displayload:"block"});
 			this.handleSigned();
 	
 
 	}
-	//}
-	// catch(err){
-	// 	localStorage.removeItem("budgetuserset");
-		
-	// 	this.props.history.push("/");
-	// }
-
-	
-	//	console.log(total);
-
 	}
 	loading(){
 	return	Swal.fire({
    		text:'loading',
    		footer:"<i class='fa fa-spinner fa-spin'></i>",	
    		showCancelButton:false,
-   		//allowOutsideClick:false,
+   		allowOutsideClick:false,
    		showConfirmButton:false,
    	})
    
@@ -87,10 +79,7 @@ export default class Main extends Component {
 		//
 	try{
 	if(!this.state.locked){
-			//console.log(this.state.locked);
 		const budgetcount = localStorage.budgetcount;
-		// console.log(budgetcount);
-		// console.log(typeof(budgetcount));
 		if(budgetcount==0||budgetcount=="0"){
 			this.setState({"display":"block"})
 			this.setState({"displaybudgets":"none"})
@@ -99,8 +88,6 @@ export default class Main extends Component {
 			
 			
 			this.setState({budgetcount:budgetcount});
-			const budgts  = atob(localStorage.budgets).split("~");
-			this.setState({budgets:budgts})
 		}
 
 		}
@@ -133,11 +120,7 @@ export default class Main extends Component {
 			//console.log(ask);
 			if(ask){
 			const user =JSON.parse(atob(localStorage.budgetuser));
-			console.log(user);
-			//console.log(user)
 			var {username,email} = user;
-			
-			//console.log(atob(u),atob(p));
 			 username = atob(username);
 			 email = atob(email);
 
@@ -146,7 +129,6 @@ export default class Main extends Component {
 				icon:'question',
 				title:'Welcome '+username,
 				text:'Enter your password',
-				//footer:'<span onClick={this.handleForget}>Forgotten Password</span>',
 				input:'password',
 				inputAttributes:{
 					required:true,
@@ -155,17 +137,13 @@ export default class Main extends Component {
 				},
 				confirmButtonText:'Log In',
 				validationMessage:'Enter a valid password more than 6 characters',
-				// preconfirm:(password)=>{
-				// 	//console.log(password);
-				// 	return false;
-				// },
 			})
 			.then((result)=>{
 				if(result.value){
 					const answer = btoa(result.value);
 					this.loading();
 					var jwt = localStorage.jwt;
-					fetch("https://novling.000webhostapp.com/budgetapp/valid.php",{
+					fetch("budgetapp/valid.php",{
 						method:"POST",
 						body:jwt+"*&~"+answer,
 					})
@@ -180,7 +158,8 @@ export default class Main extends Component {
 									timer:50,
 									showConfirmButton:false,
 									showCancelButton:false,
-
+									backdrop:"transparent",
+									background:"transparent",
 								})
 								localStorage.setItem("dur",btoa(time));
 
@@ -236,44 +215,22 @@ export default class Main extends Component {
 		//this.handleTotal();
 	}
 	handleTotal(){
-			const user =JSON.parse(atob(localStorage.budgetuser));
-			var {username,email} = user;
-			 username = atob(username);
-			 email = atob(email);
-			 var jwt = localStorage.jwt;
-			 const req = email+"&^%"+jwt;
-			fetch("https://novling.000webhostapp.com/budgetapp/total.php",{
-				method:"POST",
-				body:req,
-			})
-			.then(response=>response.json())
-			.then((data)=>{
-				//console.log(data);
-				if(data.code==200){
-					const total = data.token;
-					this.setState({total:total});
+			window.setTimeout(()=>{
+				this.setState({displayload:"none"});
+					var t = 0;
+
+					var rr = document.getElementsByClassName("total");
+					for(var i=0;i<rr.length;i++){
+					  var price = rr[i].outerText;
+					  t = t +  parseInt((price).trim());
+					}
+					this.setState({total:t});
 					this.setState({"display":"none"})
-				this.setState({"displaybudgets":"block"})
-				
-					//console.log(total,this.state.total);
-				}
-				else {
-					throw data.token;
-				}
-			})
-			.catch((err)=>{
-				Swal.fire({
-				icon:'error',
-				showConfirmButton:false,
-				text:err,
-				timer:2000,
-			})
-			.then((mov)=>{
-				this.props.history.push("/");
-			})
-			//	console.log(err);
-			})
-		
+					this.setState({"displaybudgets":"block"})
+					if(t==0){
+						this.handleTotal();
+					}
+			},7000)	
 	}
 	handleForget(){
 		console.log('forogt ');
@@ -286,6 +243,9 @@ export default class Main extends Component {
 	render(){
 		return (	
 				<main>
+					<span className="shownot" style={{"display":this.state.displayload}}>
+						Loading  Budgets <i className="fa fa-spinner fa-spin"></i>
+					</span>
 					<span className="shownot" style={{"display":this.state.display}}>
 						You've not added any item yet,Hit the ADD button to get started
 					</span>

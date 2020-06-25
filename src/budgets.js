@@ -7,6 +7,7 @@ export default class Budgets extends Component{
 	state = {
 		budgets : [],
 		count :0,
+		dispload:"block",
 		total:0,
 	}
 	componentDidMount(){
@@ -18,7 +19,10 @@ export default class Budgets extends Component{
 		Swal.fire({
 			html:"<i class='fa fa-spinner fa-spin'></i>",
 			footer:"Loading Budgets",
-			timer:4000,
+			showConfirmButton:false,
+			showCancelButton:false,
+			allowOutsideClick:false,
+
 		})
 		const user =JSON.parse(atob(localStorage.budgetuser));
 			var {username,email} = user;
@@ -26,7 +30,7 @@ export default class Budgets extends Component{
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt;
-			fetch("https://novling.000webhostapp.com/budgetapp/budgets.php",{
+			fetch("budgetapp/budgets.php",{
 				method:"POST",
 				body:req,
 			})
@@ -48,6 +52,7 @@ export default class Budgets extends Component{
 				else {
 			//		console.log(data);
 					this.setState({budgets:data});
+					this.setState({dispload:"none"});
 				}
 			})
 			.catch((err)=>{
@@ -77,7 +82,14 @@ export default class Budgets extends Component{
 	render(){
 		//console.log(this.state.budgets);
 		return (
-		<React.Fragment>{
+			<React.Fragment>
+			<div className="budget" style={{"display":this.state.dispload}}>
+				<span className="itemname">Loading Budgets</span>
+				<span className="itemprice">
+					<span className="fa fa-spinner fa-spin"></span>
+				</span>
+			</div>
+		{
 
 		this.state.budgets.map((item)=>{
 			if(item.budgetname==""||item==""){

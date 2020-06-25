@@ -10,6 +10,11 @@ export default class Header extends Component {
 		return (
 			<nav className="navbar mynavbar fixed-top navbar-expand-lg navbar-light bg-warning">
 						  <Link className="navbar-brand" to="/">BudGetApp</Link>
+						  
+						  <Link className="bell navbar-brand" to="/notifications">
+						  <i className='fa fa-bell'></i><sup>2</sup>
+						  </Link>
+
 						  <Link className="logout navbar-brand" to="/more">
 						  <i className='fa fa-bars'></i>
 						  </Link>

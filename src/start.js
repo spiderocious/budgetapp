@@ -15,7 +15,7 @@ loading(){
    		text:'loading',
    		footer:"<i class='fa fa-spinner fa-spin'></i>",	
    		showCancelButton:false,
-   		//allowOutsideClick:false,
+   		allowOutsideClick:false,
    		showConfirmButton:false,
    	})
    
@@ -25,7 +25,7 @@ login(pass,email,username){
 	//console.log(password);
 	var password = btoa(pass);
 	const toback = atob(email)+":;"+atob(username)+":;"+password;
-   	fetch("https://novling.000webhostapp.com/budgetapp/save.php",{
+   	fetch("budgetapp/save.php",{
    		method:"POST",
    		body:toback,
 
@@ -125,7 +125,7 @@ var password;
    	const username =  btoa(answers[1]);
    	const email = btoa(answers[0]);
    	this.loading();
-   	fetch("https://novling.000webhostapp.com/budgetapp/signup.php",{
+   	fetch("budgetapp/signup.php",{
    		method:'POST',
    		body:answers[0],
    	})
@@ -203,7 +203,7 @@ var password;
   			this.loading();
    			//console.log("old user"+pass);
    			let nd = answers[0]+"&^%"+pass;
-   			fetch("https://novling.000webhostapp.com/budgetapp/login.php",{
+   			fetch("/budgetapp/login.php",{
    				method:"POST",
    				body:nd,
    			})
