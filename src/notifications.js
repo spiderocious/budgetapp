@@ -26,7 +26,7 @@ export default class Notifications extends Component{
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt;
-			fetch("budgetapp/notifications.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/notifications.php",{
 				method:"POST",
 				body:req,
 			})

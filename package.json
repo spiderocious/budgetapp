@@ -1,6 +1,5 @@
 {
   "name": "react2",
-  "proxy": "https://novling.000webhostapp.com/budgetapp",
   "version": "0.1.0",
   "secure": false,
   "private": true,

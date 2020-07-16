@@ -35,7 +35,7 @@ deleteBudget(){
   	 	})
   	 	 //this.setState({email:email,jwt:jwt,code:code,budgetid:budgetid});
 			 const req = this.state.email+"&^%"+this.state.jwt+"&^%"+this.state.code+"&^%"+this.state.budgetid;
-			fetch("budgetapp/deletebudget.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/deletebudget.php",{
 				method:"POST",
 				body:req,
 			})
@@ -80,7 +80,7 @@ deleteBudget(){
 			 var jwt = localStorage.jwt;
 			 this.setState({email:email,jwt:jwt,code:code,budgetid:budgetid});
 			 const req = email+"&^%"+jwt+"&^%"+code+"&^%"+budgetid;
-			fetch("budgetapp/sharedet.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/sharedet.php",{
 				method:"POST",
 				body:req,
 			})

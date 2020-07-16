@@ -207,7 +207,7 @@ export default class shared extends Component{
 			const obj =  name+"&^%"+price+"&^%"+quantity+"&^%"+this.state.req;
 			//console.log(obj);
 			this.loading();
-			fetch("budgetapp/addbudgets.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/addbudgets.php",{
 				method:"POST",
 				body:obj,	
 			})
@@ -311,7 +311,7 @@ export default class shared extends Component{
 			req = "0"+"&^%"+"0"+"&^%"+code;
 				this.setState({newuser:1});
 			}
-			fetch("budgetapp/shared.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/shared.php",{
 				method:"POST",
 				body:req,
 			})
@@ -372,7 +372,7 @@ export default class shared extends Component{
 			 var req = email+"&^%"+jwt+"&^%"+this.state.code;
 			
 			//var a = localStorage.jwt;
-		fetch("budgetapp/budgetreview.php",{
+		fetch("https://novling.000webhostapp.com/budgetapp/budgetreview.php",{
 				method:"POST",
 				body:req,
 			})
@@ -422,7 +422,7 @@ export default class shared extends Component{
 		document.getElementById(e).innerHTML="<i class='fa fa-spinner fa-spin'></i> Adding";
 		const req = this.state.req+"&^%"+e;
 		document.getElementById(e).disabled=true;
-		fetch("budgetapp/addtolist.php",{
+		fetch("https://novling.000webhostapp.com/budgetapp/addtolist.php",{
 				method:"POST",
 				body:req,
 			})
@@ -478,7 +478,7 @@ export default class shared extends Component{
 			var req = 0+"&^%"+0+"&^%"+this.state.code;
 		}
 		this.setState({req:req});
-		fetch("budgetapp/budgetshared.php",{
+		fetch("https://novling.000webhostapp.com/budgetapp/budgetshared.php",{
 				method:"POST",
 				body:req,
 			})

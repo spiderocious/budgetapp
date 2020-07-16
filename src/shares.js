@@ -32,7 +32,7 @@ export default class shared extends Component{
 			 var jwt = localStorage.jwt;
 			 var req = email+"&^%"+jwt;
 		
-			fetch("budgetapp/shares.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/shares.php",{
 				method:"POST",
 				body:req,
 			})

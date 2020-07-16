@@ -34,7 +34,7 @@ class Details extends Component{
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt+"&^%"+budgetid;
-			fetch("/budgetapp/details.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/details.php",{
 				method:"POST",
 				body:req,
 			})
@@ -63,7 +63,7 @@ class Details extends Component{
 					this.loading();
 					//delete operation
 				//console.log("delete");	
-				fetch("/budgetapp/delete.php",{
+				fetch("https://novling.000webhostapp.com/budgetapp/delete.php",{
 				method:"POST",
 				body:req,
 			})
