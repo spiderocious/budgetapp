@@ -19,6 +19,7 @@ export default class shared extends Component{
 			dispload:"table-row",
 			nolist:"none",
 			msg:'',
+			budgetname:'',
 			username:'',
 			email:'',
 			token:'',
@@ -41,10 +42,10 @@ export default class shared extends Component{
    }
    handleAdd(){
    	 //console.log("add new to this budget");
-   	 if(this.state.editaccess==1){
-   	 		const code = this.state.code;
+   	 if(this.state.editaccess===1){
+   	 		
    	 		const username = this.state.username;
-   	 		if(username.trim()==""||this.state.email==""||localStorage.jwt==""||localStorage.jwt==undefined){
+   	 		if(username.trim()===""||this.state.email===""||localStorage.jwt===""||localStorage.jwt===undefined){
    	 			//a new user that needs to sign in
    	 			Swal.fire({
    	 				text:'You need to log in to make changes to this budget',
@@ -98,7 +99,6 @@ export default class shared extends Component{
    	Swal.mixin({
 	icon:'question',
 	  input: 'text',
-	  icon:'question',
 	  backdrop:'#ffc107',
 	  confirmButtonText: 'Next &rarr;',
 	  showCancelButton: true,
@@ -110,8 +110,6 @@ export default class shared extends Component{
 			required:true,
 		},
 		validationMessage:'What\'up,Enter Item Name',
-		showCancelButton:true,
-
 		cancelButtonText:'Cancel',
 		
 		customClass:{
@@ -177,14 +175,14 @@ export default class shared extends Component{
 			const name = arr[0];
 			const price = arr[1] ;
 			const quantity = arr[2];
-			 if(price==0||price=="0"){
+			 if(price===0||price==="0"){
 						throw "Price must be greater than zero(0)";
 			}
-			else if(quantity==0||quantity=="0"){
+			else if(quantity===0||quantity==="0"){
 				throw 'Quantity must be more than zero(0)';
 			}
-			var arr =  [name,price,quantity];
-			arr.forEach((item,index)=>{
+			var newarr =  [name,price,quantity];
+			newarr.forEach((item,index)=>{
 				try {
 					if(item.indexOf("@")>-1){
 						throw "Invalid Item details";
@@ -192,12 +190,12 @@ export default class shared extends Component{
 					else if(item.indexOf("~")>-1){
 						throw "Invalid Item details";
 					}
-					else if(price==0||price=="0"){
+					else if(price===0||price==="0"){
 						throw "Price must be greater than zero(0)"
 					}
 				}
 				catch(err){
-					Swal.fire({
+				Swal.fire({
 				icon:'error',
 				showConfirmButton:false,
 				text:err,
@@ -206,7 +204,6 @@ export default class shared extends Component{
 			
 				}
 			})
-			var jwt = localStorage.jwt;
 			const obj =  name+"&^%"+price+"&^%"+quantity+"&^%"+this.state.req;
 			//console.log(obj);
 			this.loading();
@@ -217,17 +214,18 @@ export default class shared extends Component{
 			.then(response=>response.json())
 			.then((data)=>{
 				//console.log(data);
-				if(data.type==1){
-					var ans = name+' has been added to budget successfully';
+				var ans;
+				if(data.type===1){
+					 ans = name+' has been added to budget successfully';
 				}
 				else {
-					var ans = name+' has been added to budget successfully,Your budget will be reviewed by the budget admin and would be added to the main list';
+					 ans = name+' has been added to budget successfully,Your budget will be reviewed by the budget admin and would be added to the main list';
 				}
-				if(data.code==200){
+				if(data.code===200){
 					Swal.fire({
 				icon:'success',
 				showConfirmButton:false,
-			text:ans,
+				text:ans,
 				timer:2000,
 				allowOutsideClick:true,
 				allowEscapeKey:true,
@@ -276,7 +274,22 @@ export default class shared extends Component{
 	componentDidMount(){
 		this.loading();
 		this.startload();
-		
+		var count = 0;
+		window.setInterval(()=>{
+			var a = window.location.href;
+			var b = a.split("/");
+			if(b.length===6){
+				if(a.indexOf("shared")>0){
+				if(count<5){
+				this.startload();
+				}
+				else {
+					window.location.reload();
+				}		
+				}
+			}
+			count = count+1;
+		},30000)
 	}
 	startload(){
 		const code = this.props.match.params.code;
@@ -284,17 +297,18 @@ export default class shared extends Component{
 		
 		this.setState({code:code,link:link});
 		//fetch budget details 
-		if(localStorage.budgetuserset=="true"){
+		 var req;
+		if(localStorage.budgetuserset==="true"){
 		const user =JSON.parse(atob(localStorage.budgetuser));
 			var {username,email} = user;
 			 username = atob(username);
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
-			 this.setState({username:username,email,email,token:jwt})
-			 var req = email+"&^%"+jwt+"&^%"+code;
+			 this.setState({username:username,email:email,token:jwt})
+			  req = email+"&^%"+jwt+"&^%"+code;
 			}
 			else {
-				var req = "0"+"&^%"+"0"+"&^%"+code;
+			req = "0"+"&^%"+"0"+"&^%"+code;
 				this.setState({newuser:1});
 			}
 			fetch("budgetapp/shared.php",{
@@ -304,12 +318,12 @@ export default class shared extends Component{
 			.then(response=>response.json())
 			.then((data)=>{
 				//console.log(data);
-				if(data.code==200){
+				if(data.code===200){
 					const owner = data.isowner;
-					const username = data.username;
 					const editaccess = data.editaccess;
 					const budgetname = data.budgetname;
-					if(editaccess==1||owner==1){
+					this.setState({budgetname:budgetname});
+					if(editaccess===1||owner===1){
 						this.setState({btnadd:'block'});
 						this.setState({editaccess:1});
 					}
@@ -317,7 +331,7 @@ export default class shared extends Component{
 						this.setState({btnadd:'none'});
 						this.setState({editaccess:0});
 					}
-					if(owner==1){
+					if(owner===1){
 						this.setState({ownerscorner:'block'});
 						this.setState({admin:1});
 						this.fetchadbud(true);
@@ -349,11 +363,10 @@ export default class shared extends Component{
 		//fetch shared budgets 
 		try{
 		this.setState({dispload:"table-row"});
-		if(this.state.admin==1){
+		if(this.state.admin===1){
 			const user =JSON.parse(atob(localStorage.budgetuser));
 		
 			var {username,email} = user;
-			 username = atob(username);
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 var req = email+"&^%"+jwt+"&^%"+this.state.code;
@@ -367,12 +380,12 @@ export default class shared extends Component{
 			.then((data)=>{
 				this.setState({dispload:"none"});
 				//console.log(data);
-				if(data.code==200){
+				if(data.code===200){
 					console.log(data.budgets);
 					this.setState({review:data.budgets});
 					this.subscribe(true);
 				}
-				else if(data.code==203){
+				else if(data.code===203){
 					this.setState({nolist:"block",msg:data.token});
 					this.subscribe(true);
 				}
@@ -415,7 +428,7 @@ export default class shared extends Component{
 			})
 			.then(response=>response.json())
 			.then((data)=>{
-				if(data.code==200){
+				if(data.code===200){
 					this.toast(data.token);
 					var ide = e+"id";
 					document.getElementById(ide).style.display="none";
@@ -448,17 +461,15 @@ export default class shared extends Component{
 			const user =JSON.parse(atob(localStorage.budgetuser));
 		
 			var {username,email} = user;
-			 username = atob(username);
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 var req = email+"&^%"+jwt+"&^%"+this.state.code;
 			
 			//var a = localStorage.jwt;
 		}
-		else if(localStorage.budgetuserset=="true"){
+		else if(localStorage.budgetuserset==="true"){
 			const user =JSON.parse(atob(localStorage.budgetuser));
 			var {username,email} = user;
-			 username = atob(username);
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 var req = email+"&^%"+jwt+"&^%"+this.state.code;
@@ -474,7 +485,7 @@ export default class shared extends Component{
 			.then(response=>response.json())
 			.then((data)=>{
 				this.setState({loading:"none"})
-			if(data.code==200){
+			if(data.code===200){
 				const budgets = data.budgets;
 				this.setState({budgets:budgets});
 				Swal.fire({
@@ -493,7 +504,7 @@ export default class shared extends Component{
 
 				},2000);
 			}
-			else if(data.code==203){
+			else if(data.code===203){
 			//	throw data.token;
 				Swal.fire({
 				showConfirmButton:false,
@@ -535,11 +546,11 @@ export default class shared extends Component{
 			</nav>
 			<div className="allbudgets">
 			<div className="budget col-md-8  text-center">
-							Church Building Donation Pledges
+							{this.state.budgetname}
 						</div>
 						{
 							this.state.budgets.map((budget,index)=>{
-								if(budget.budgetprice!=""){
+								if(budget.budgetprice!==""){
 								return <Budget budgetid={budget.budgetid} code={this.state.code} budgetname={budget.budgetname} budgetprice={budget.budgetprice} quantity={budget.budgetquantity}/>;
 								}
 							})
@@ -590,7 +601,7 @@ export default class shared extends Component{
 							</tr>
 							{
 								this.state.review.map((budget)=>{
-									if(budget.budgetprice!=""){
+									if(budget.budgetprice!==""){
 										var ide = budget.budgetid+"id";
 									return <tr key={budget.budgetid} id={ide}>
 											<td><span className="itemname">{budget.budgetname}</span></td>

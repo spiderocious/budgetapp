@@ -70,6 +70,7 @@ handleRevoke(){
 		if(localStorage.budgetuserset!="true"){
 			this.props.history.push("/");
 		}
+		else {
 		var code;
 		const budgetid = this.props.match.params.budgetcode;
 		console.log(budgetid);
@@ -177,6 +178,7 @@ handleRevoke(){
 		
 		}
 	}
+}
 
 	render(){
 		return (

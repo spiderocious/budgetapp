@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 export default class Logout extends Component{
 	componentDidMount(){
 		//console.log(localStorage.budgetuserset)
-	if(localStorage.budgetuserset=="true"){
+	if(localStorage.budgetuserset==="true"){
 		Swal.fire({
 		icon:'warning',
 		text:'Hi,When you logout,you\'ll lose all your budgets list.Did you still want to log out?',

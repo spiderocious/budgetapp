@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
 import Swal from 'sweetalert2';
+import {toast} from './toast';
+
 class Details extends Component{
 	constructor(props){
 		super();
@@ -24,7 +26,7 @@ class Details extends Component{
 deleteBudget(){
 		const code = this.props.match.params.code;
 		const budgetid = this.props.match.params.budgetid;
-		return	Swal.fire({
+		Swal.fire({
    		text:'Deleting '+this.state.budgetname,
    		footer:"<i class='fa fa-spinner fa-spin'></i>",	
    		showCancelButton:false,
@@ -39,7 +41,13 @@ deleteBudget(){
 			})
 			.then(response=>response.json())
 			.then((data)=>{
-
+				if(data.code==200){
+					this.props.history.push("/shared/"+code);
+					toast("Budget deleted successfully");
+				}
+				else {
+					throw data.token;
+				}	
 			})
 			.catch((err)=>{
 				Swal.fire({
@@ -54,9 +62,10 @@ deleteBudget(){
 			})
 }
 	componentDidMount(){
-		if(localStorage.budgetuserset!="true"){
+		if(localStorage.budgetuserset!="true"||localStorage.budgetuserset==undefined){
 			this.props.history.push("/");
 		}
+		else {
 		const code = this.props.match.params.code;
 		const budgetid = this.props.match.params.budgetid;
 		if(budgetid==undefined||code==undefined){
@@ -77,7 +86,6 @@ deleteBudget(){
 			})
 			.then(response=>response.json())
 			.then((data)=>{
-			console.log(data);
 			if(data.code==200){
 			let name = data.budgetname;
 			let price = data.budgetprice;
@@ -86,7 +94,7 @@ deleteBudget(){
 			let isadmin = data.isadmin;
 			this.setState({budgetname:name})
 			Swal.fire({
-				html:"Budget Name: "+name+"<br> Price : "+price+"<br> Quantity "+quantity+"<br>Added by"+username,
+				html:"Budget Name: "+name+"<br> Price : "+price+"<br> Quantity :"+quantity+"<br>Added by :"+username,
 				confirmButtonText:'<i class="fa fa-arrow-left"></i> Back',
 				showCancelButton:isadmin,
 				cancelButtonText:"Delete Budget<i class='fa fa-trash'></i>",
@@ -108,8 +116,25 @@ deleteBudget(){
 						this.props.history.push("/shared/"+code);
 					}
 					else if(result.dismiss === Swal.DismissReason.cancel){
-						console.log("delete budget");
-						this.deleteBudget();
+						Swal.fire({
+							icon:'warning',
+							text:'Do you really want to delete '+name,
+							confirmButtonText:'YES,delete It!',
+							cancelButtonText:"No,Keep it",
+							showCloseButton:true,
+							showCancelButton:true,
+
+						})
+						.then((shall)=>{
+							if(shall.value){
+
+								this.deleteBudget();
+							}
+							else {
+								this.props.history.push("/shared/"+code);
+							}
+						})
+
 					}
 					else {
 						this.props.history.push("/shared/"+code);
@@ -137,7 +162,7 @@ deleteBudget(){
 		
 		}
 	}
-
+}
 	render(){
 		return (
 				<span></span>

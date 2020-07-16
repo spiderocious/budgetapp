@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+ import React,{Component} from 'react';
 import Budget from './budget';
 import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -9,6 +9,7 @@ export default class Budgets extends Component{
 		count :0,
 		dispload:"block",
 		total:0,
+		totalname:''
 	}
 	componentDidMount(){
 		try {
@@ -16,14 +17,7 @@ export default class Budgets extends Component{
 		if(localStorage.getItem("budgetuserset")==undefined){
 			this.props.history.push("/");
 		}
-		Swal.fire({
-			html:"<i class='fa fa-spinner fa-spin'></i>",
-			footer:"Loading Budgets",
-			showConfirmButton:false,
-			showCancelButton:false,
-			allowOutsideClick:false,
-
-		})
+		
 		const user =JSON.parse(atob(localStorage.budgetuser));
 			var {username,email} = user;
 			 username = atob(username);
@@ -51,7 +45,9 @@ export default class Budgets extends Component{
 				}
 				else {
 			//		console.log(data);
-					this.setState({budgets:data});
+					this.setState({budgets:data.budgets});
+					this.setState({total:data.total});
+					this.setState({totalname:"Total"})
 					this.setState({dispload:"none"});
 				}
 			})
@@ -106,6 +102,14 @@ export default class Budgets extends Component{
 				
 			})
 		 }
+		 <div className='budget'>
+							<span className="itemname">
+								{this.state.totalname}
+							</span>
+							<span className='itemprice'>
+								&#8358;{this.state.total}
+							</span>
+			</div>
 		</React.Fragment>
 		)
 	}

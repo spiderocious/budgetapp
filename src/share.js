@@ -10,7 +10,7 @@ class Budget extends Component{
 
 					}
 					else {
-						return <Share code={item.code} visits={item.visits} date={item.date}/>
+						return <Share code={item.code} budgetname={item.budgetname} visits={item.visits} date={item.date}/>
 					}
 				})
 				

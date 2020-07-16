@@ -63,7 +63,7 @@ class Details extends Component{
 					this.loading();
 					//delete operation
 				//console.log("delete");	
-				fetch("backend/budgetapp/delete.php",{
+				fetch("budgetapp/delete.php",{
 				method:"POST",
 				body:req,
 			})

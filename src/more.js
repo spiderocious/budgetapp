@@ -111,7 +111,7 @@ export default class More extends Component{
 	}
 
 	handleNew(){
-		this.loading();
+		
 		var budgetname;
 		Swal.fire({
 			text:"Enter a name for this budget",
@@ -125,7 +125,7 @@ export default class More extends Component{
 			background:"#ffc107",
 			inputAttributes:{
 				minlength:3,
-				maxlength:30,
+				maxlength:8,
 				required:true,
 			},
 			customClass:{
@@ -142,7 +142,8 @@ export default class More extends Component{
 			 username = atob(username);
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
-			 const req = email+"&^%"+jwt+"&^%"+this.state.edit;
+			 const req = email+"&^%"+jwt+"&^%"+this.state.edit+"&^%"+budgetname;
+			 this.loading();
 			fetch("budgetapp/sharenew.php",{
 				method:"POST",
 				body:req,
@@ -200,7 +201,7 @@ export default class More extends Component{
 	}
 //https://novling.000webhostapp.com/budgetapp/
 	handleExist(){
-		this.loading();
+		
 		var budgetname;
 		Swal.fire({
 			text:"Enter a name for this budget",
@@ -214,7 +215,7 @@ export default class More extends Component{
 			background:"#ffc107",
 			inputAttributes:{
 				minlength:3,
-				maxlength:30,
+				maxlength:8,
 				required:true,
 			},
 			customClass:{
@@ -231,6 +232,7 @@ export default class More extends Component{
 			 username = atob(username);
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
+			 this.loading();
 			 const req = email+"&^%"+jwt+"&^%"+this.state.edit+"&^%"+budgetname;
 			fetch("budgetapp/sharexist.php",{
 				method:"POST",

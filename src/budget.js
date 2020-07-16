@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink,Link} from 'react-router-dom';
 
 class Budget extends Component{
 	render(){
@@ -14,7 +14,7 @@ class Budget extends Component{
 		}
 		
 		return (
-			<Link to={link}>
+			<NavLink to={link}>
 			<div className='budget'  key={key}>
 							<span className="itemname">
 								{this.props.budgetname}
@@ -24,7 +24,7 @@ class Budget extends Component{
 
 							</span>
 			</div>
-			</Link>
+			</NavLink>
 		)
 	}
 }

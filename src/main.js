@@ -2,6 +2,9 @@ import React,{Component} from 'react';
 import './css/main.css';
 import Swal from 'sweetalert2';
 import Budgets from './budgets';
+import './css/new.css';
+import {Link} from 'react-router-dom';
+import {toast,say,closemodal} from './toast';
 
 export default class Main extends Component {
 	constructor(props){
@@ -14,48 +17,53 @@ export default class Main extends Component {
 		displaybudgets:'block',
 		budgets:'',
 		locked:true,
+		password:'',
 		displayload:"none",
+		dis:"disabled",
+		disps:"block",
+		showbud:'none',
 	}
 		this.handleAdd = this.handleAdd.bind(this);
 		this.handleSigned = this.handleSigned.bind(this);
 	}
 
 	componentDidMount(){
+	try{
+		 const userset = localStorage.getItem("budgetuserset");
+					  if(userset===undefined||userset===false||localStorage.budgetuser===""||localStorage.budgetuser==undefined){
+					    this.props.history.push("/");
 
-		// var total = 0;
-		// if(localStorage.budgets!=undefined){
-		// 	const budgets  = atob(localStorage.budgets);
-		// 	var narr = budgets.split("~");
-		// 	narr.forEach((budget,index)=>{
-		// 		if(budget!=""){
-		// 		const obj = budget.split("@");
-		// 		let price = parseInt(obj[1]);
-		// 		let quantity = parseInt(obj[2]);
-		// 		var nt = parseInt(price*quantity);
-		// 		//console.log(nt,total);
-		// 		//console.log(total);
+					  }
+	// 	// var total = 0;
+	// 	// if(localStorage.budgets!=undefined){
+	// 	// 	const budgets  = atob(localStorage.budgets);
+	// 	// 	var narr = budgets.split("~");
+	// 	// 	narr.forEach((budget,index)=>{
+	// 	// 		if(budget!=""){
+	// 	// 		const obj = budget.split("@");
+	// 	// 		let price = parseInt(obj[1]);
+	// 	// 		let quantity = parseInt(obj[2]);
+	// 	// 		var nt = parseInt(price*quantity);
+	// 	// 		//console.log(nt,total);
+	// 	// 		//console.log(total);
 
-		// 		total =  parseInt(total)+parseInt(nt);
-		// 		//console.log(typeof(nt),typeof(total))
-		// 		//console.log(total)
-		// 	}
-		// 	})
-		// 	this.setState({total:total});
-		// }
+	// 	// 		total =  parseInt(total)+parseInt(nt);
+	// 	// 		//console.log(typeof(nt),typeof(total))
+	// 	// 		//console.log(total)
+	// 	// 	}
+	// 	// 	})
+	// 	// 	this.setState({total:total});
+	// 	// }
 
-		Swal.fire({
-			timer:100,
-			text:'Loading',
-			showConfirmButton:false,
-		});
+	
 		const budgetcount = localStorage.budgetcount;
 		// console.log(budgetcount);
 		// console.log(typeof(budgetcount));
-		if(budgetcount==0||budgetcount=="0"||budgetcount==undefined){
+		if(budgetcount===0||budgetcount==="0"||budgetcount===undefined){
 			this.setState({"display":"block"})
 			this.setState({"displaybudgets":"none"})
 		}
-		if(localStorage.getItem("budgetuserset")==undefined){
+		if(localStorage.getItem("budgetuserset")===undefined){
 			this.props.history.push("/");
 		}
 		else {
@@ -65,6 +73,10 @@ export default class Main extends Component {
 
 	}
 	}
+   catch(err){
+   	console.log(err);
+   }
+	}
 	loading(){
 	return	Swal.fire({
    		text:'loading',
@@ -73,14 +85,14 @@ export default class Main extends Component {
    		allowOutsideClick:false,
    		showConfirmButton:false,
    	})
-   
+
 }
 	handleSigned(){
 		//
 	try{
 	if(!this.state.locked){
 		const budgetcount = localStorage.budgetcount;
-		if(budgetcount==0||budgetcount=="0"){
+		if(budgetcount===0||budgetcount==="0"){
 			this.setState({"display":"block"})
 			this.setState({"displaybudgets":"none"})
 		}
@@ -97,7 +109,7 @@ export default class Main extends Component {
 			const hour = date.getHours();
 			const time = hour+":"+minutes;
 			var ask = true;
-			if(localStorage.dur==undefined){
+			if(localStorage.dur===undefined){
 				ask = true;
 				
 			}
@@ -107,7 +119,7 @@ export default class Main extends Component {
 				var min = ago[1];
 
 				//console.log(houra,hour)
-				if(houra==hour){
+				if(houra===hour){
 					ask = false;
 					// this.setState({locked:false});
 					this.handleTotal();	
@@ -118,30 +130,62 @@ export default class Main extends Component {
 				}
 			}
 			//console.log(ask);
-			if(ask){
-			const user =JSON.parse(atob(localStorage.budgetuser));
-			var {username,email} = user;
-			 username = atob(username);
-			 email = atob(email);
+			if(!ask){
+					this.setState({disps:"none"});
+					this.setState({showbud:"block"});
+		}
+		
+		}
+		}
+		catch(err){
+			console.log(err);
+		}
+	//	this.handleTotal();
+			
+	}
 
-			Swal.fire({
-				backdrop:"#ffc107",
-				icon:'question',
-				title:'Welcome '+username,
-				text:'Enter your password',
-				input:'password',
-				inputAttributes:{
-					required:true,
-					minlength:6,
-					placeholder:'Password',
-				},
-				confirmButtonText:'Log In',
-				validationMessage:'Enter a valid password more than 6 characters',
-			})
-			.then((result)=>{
-				if(result.value){
-					const answer = btoa(result.value);
-					this.loading();
+	handleTotal(){
+	
+	}
+	handleForget(){
+		console.log('forogt ');
+	}
+	
+	handleAdd(){
+		this.props.history.push("/add");
+
+	}
+
+	handleKeys(e){
+		const password = e.target.value;
+		if(password.length>5){
+			this.setState({dis:""});
+		}
+		else {
+			this.setState({dis:"disabled"});
+		}
+	}
+	handlePass(e){
+		e.preventDefault();
+		const password = document.getElementById("password").value;
+		if(password.length>5){
+					const date = new Date();
+					const minutes = date.getMinutes();
+					const hour = date.getHours();
+					const time = hour+":"+minutes;
+					 const userset = localStorage.getItem("budgetuserset");
+					  if(userset===undefined||userset===false||localStorage.budgetuser===""||localStorage.budgetuser==undefined){
+					    this.props.history.push("/");
+
+					  }
+					const user =JSON.parse(atob(localStorage.budgetuser));
+					var {username,email} = user;
+					 username = atob(username);
+					 email = atob(email);
+
+					const answer = btoa(password);
+					document.getElementById("submitbtn").innerHTML="<i class='fa fa-spinner fa-spin'></i>";
+					//this.loading();
 					var jwt = localStorage.jwt;
 					fetch("budgetapp/valid.php",{
 						method:"POST",
@@ -150,22 +194,20 @@ export default class Main extends Component {
 					.then(response=>response.json())
 					.then((data)=>{
 						//console.log(data);
-						if(data.code==200||data.code=="200"){
+						if(data.code===200||data.code==="200"){
 							localStorage.setItem("jwt",data.token);
+								say();
 								this.setState({locked:false});
 							//	this.handleSigned();
-								Swal.fire({
-									timer:50,
-									showConfirmButton:false,
-									showCancelButton:false,
-									backdrop:"transparent",
-									background:"transparent",
-								})
+								this.setState({disps:"none"});
 								localStorage.setItem("dur",btoa(time));
 
 								this.handleTotal();	
+								closemodal();
+								this.setState({showbud:"block"});
+								this.setState({displayload:"none"});
 						}
-						else if(data.code==400){
+						else if(data.code===400){
 							Swal.fire({
 							icon:'error',
 							showConfirmButton:false,
@@ -179,9 +221,8 @@ export default class Main extends Component {
 						}
 						else {
 							this.handleSigned();
-						Swal.showValidationMessage(
-				       `Incorrect Password`
-				         )
+						toast("Incorrect Password");
+						document.getElementById("submitbtn").innerHTML='<i class="fa fa-arrow-right"></i>';
 				       //  
 						}
 						//console.log(data);
@@ -189,83 +230,53 @@ export default class Main extends Component {
 					.catch((err)=>{
 						console.log(err);
 					})
-					// var password = answer;
-					// if(answer===""){
-					// }
-					// else {
-					// 
-					// }
-					//console.log(answer);
-				}
-				else {
-					this.handleSigned();
-				}
-			})
 		}
-		
+		else {
+			toast("Password must be 6 characters or more");
 		}
-		}
-		catch(err){
-			console.log(err);
-		}
-	//	this.handleTotal();
-			
-	}
-	componentDidUpdate(){
-		//this.handleTotal();
-	}
-	handleTotal(){
-			window.setTimeout(()=>{
-				this.setState({displayload:"none"});
-					var t = 0;
-
-					var rr = document.getElementsByClassName("total");
-					for(var i=0;i<rr.length;i++){
-					  var price = rr[i].outerText;
-					  t = t +  parseInt((price).trim());
-					}
-					this.setState({total:t});
-					this.setState({"display":"none"})
-					this.setState({"displaybudgets":"block"})
-					if(t==0){
-						this.handleTotal();
-					}
-			},7000)	
-	}
-	handleForget(){
-		console.log('forogt ');
-	}
-	
-	handleAdd(){
-		this.props.history.push("/add");
-
 	}
 	render(){
 		return (	
-				<main>
-					<span className="shownot" style={{"display":this.state.displayload}}>
-						Loading  Budgets <i className="fa fa-spinner fa-spin"></i>
-					</span>
+			<React.Fragment>
+
+			<div className="formdiv row" style={{"display":this.state.disps}}>
+			<header className="formhead">
+				<img src="logo.png" height="50" width="50"/>
+				
+			</header>
+				<div className="container">
+					<div className="col-md-12">
+						<div className="col-md-6">
+							<img src="sign.png"/>
+						</div>
+						<div className="col-md-6 form">
+							<form onSubmit={this.handlePass.bind(this)}>
+								<span className="desc">Log In to your account</span>
+								<label htmlFor="password">Password</label>
+								<input type="password" id="password" className="inputs" placeholder="*********"/>
+								<button type="submit" className="btn btn-warning" id="submitbtn"> <i className="fa fa-arrow-right"></i> </button>
+							</form>
+					</div>
+					</div>
+				</div>
+				
+			</div>
+				<main style={{"display":this.state.showbud}}>
+					
 					<span className="shownot" style={{"display":this.state.display}}>
 						You've not added any item yet,Hit the ADD button to get started
 					</span>
-					<div className="allbudgets" style={{"display":this.state.displaybudgets}}>
+					<div className="allbudgets">
 						<Budgets />
 						
-						<div className='budget'  style={{"display":this.state.displaybudgets}}>
-							<span className="itemname">
-								Total
-							</span>
-							<span className='itemprice'>
-								&#8358;{this.state.total}
-							</span>
-			</div>
+						
 					</div>
 						<button className="btn-add" onClick={this.handleAdd}>
 							<i className="fa fa-plus"></i>
 						</button>
 
 				</main>
+				</React.Fragment>
 		)
 	}
 
