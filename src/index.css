@@ -96,6 +96,7 @@ code {
 .bell{
   position: absolute;
   right: 15%;
+  display: none;
 }
 .col-md-6.bbtn {
     color: #fff;
