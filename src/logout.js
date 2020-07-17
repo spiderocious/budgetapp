@@ -14,29 +14,13 @@ export default class Logout extends Component{
 		allowOutsideClick:true,
 		allowEscapeKey:true,
 		timer:5000,
-		backdrop:'#ffc107',
+		backdrop:'#d18',
 		})
 		.then((result)=>{
 			if(result.value){
-				Swal.fire({
-				icon:'error',
-				text:'Did you really want to log out? When you log out you will lose all your past records and preferences.',
-				confirmButtonText:'Yes',
-				showCancelButton:'No',
-				showCloseButton:true,
-				allowOutsideClick:true,
-				allowEscapeKey:true,
-				timer:5000,
-				backdrop:'#ffc107',
-				})
-				.then((logout)=>{
-					if(logout.value){
+				
 						this.logout();
-					}
-					else {
-						this.props.history.push("/app");
-					}
-				})
+					
 			}
 			else {
 				this.props.history.push("/app");
@@ -48,6 +32,8 @@ export default class Logout extends Component{
 		}
 	}
 	logout(){	
+		document.getElementById("more").style.display="none";
+		document.getElementById("bell").style.display="none";
 		try{
 		localStorage.removeItem("budgets");
 		localStorage.removeItem("budgetuser");

@@ -1,4 +1,4 @@
-	import React,{Component} from 'react';
+import React,{Component} from 'react';
 import Swal from 'sweetalert2';
 
 export default class Add extends Component{
@@ -138,7 +138,7 @@ componentDidMount(){
 			const obj =  name+"@"+price+"@"+quantity+"@"+jwt;
 			//console.log(obj);
 			this.loading();
-			fetch("budgetapp/addbudget.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/addbudget.php",{
 				method:"POST",
 				body:obj,	
 			})

@@ -11,11 +11,11 @@ export default class Header extends Component {
 			<nav className="navbar mynavbar fixed-top navbar-expand-lg navbar-light bg-warning">
 						  <Link className="navbar-brand" to="/">BudGetApp</Link>
 						  
-						  <Link className="bell navbar-brand" to="/notifications">
-						  <i className='fa fa-bell'></i><sup>2</sup>
+						  <Link className="bell navbar-brand" id="bell" to="/notifications">
+						  <i className='fa fa-bell'></i><sup></sup>
 						  </Link>
 
-						  <Link className="logout navbar-brand" to="/more">
+						  <Link className="logout navbar-brand" id="more" to="/more">
 						  <i className='fa fa-bars'></i>
 						  </Link>
 						  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">

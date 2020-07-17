@@ -108,7 +108,7 @@ export default class Main extends Component {
 			const minutes = date.getMinutes();
 			const hour = date.getHours();
 			const time = hour+":"+minutes;
-			var ask = true;
+			var ask;
 			if(localStorage.dur===undefined){
 				ask = true;
 				
@@ -121,7 +121,7 @@ export default class Main extends Component {
 				//console.log(houra,hour)
 				if(houra===hour){
 					ask = false;
-					// this.setState({locked:false});
+					this.setState({locked:false});
 					this.handleTotal();	
 				}
 				else {
@@ -133,6 +133,8 @@ export default class Main extends Component {
 			if(!ask){
 					this.setState({disps:"none"});
 					this.setState({showbud:"block"});
+					document.getElementById("more").style.display="block";
+								document.getElementById("bell").style.display="block";
 		}
 		
 		}
@@ -174,7 +176,7 @@ export default class Main extends Component {
 					const hour = date.getHours();
 					const time = hour+":"+minutes;
 					 const userset = localStorage.getItem("budgetuserset");
-					  if(userset===undefined||userset===false||localStorage.budgetuser===""||localStorage.budgetuser==undefined){
+					  if(userset==undefined||userset==false||localStorage.budgetuser==""||localStorage.budgetuser==undefined){
 					    this.props.history.push("/");
 
 					  }
@@ -204,20 +206,16 @@ export default class Main extends Component {
 
 								this.handleTotal();	
 								closemodal();
+								document.getElementById("more").style.display="block";
+								document.getElementById("bell").style.display="block";
 								this.setState({showbud:"block"});
 								this.setState({displayload:"none"});
 						}
 						else if(data.code===400){
-							Swal.fire({
-							icon:'error',
-							showConfirmButton:false,
-							text:data.token,
-							timer:2000,
-						})
-						.then((mov)=>{
+							toast(data.token);
 							localStorage.removeItem("budgetuserset");
 							this.props.history.push("/");
-						})
+					
 						}
 						else {
 							this.handleSigned();
