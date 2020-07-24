@@ -7,7 +7,7 @@ state = {
 }  
 componentDidMount(){
    const userset = localStorage.getItem("budgetuserset");
-            if(userset===undefined||userset===false||localStorage.budgetuser===""||localStorage.budgetuser==undefined){
+            if(userset==undefined||userset==false||localStorage.budgetuser==""||localStorage.budgetuser==undefined){
               this.props.history.push("/");
 
             }

@@ -11,6 +11,7 @@ export default class More extends Component{
 	this.handleShare = this.handleShare.bind(this);
 	this.handleExist = this.handleExist.bind(this);
 	this.handleNew = this.handleNew.bind(this);
+	this.handleBack = this.handleBack.bind(this);
 	}
 	loading(){
 	return	Swal.fire({
@@ -144,7 +145,7 @@ export default class More extends Component{
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt+"&^%"+this.state.edit+"&^%"+budgetname;
 			 this.loading();
-			fetch("https://novling.000webhostapp.com/budgetapp/sharenew.php",{
+			fetch("budgetapp/sharenew.php",{
 				method:"POST",
 				body:req,
 			})
@@ -199,7 +200,7 @@ export default class More extends Component{
 			}
 		})
 	}
-//https://novling.000webhostapp.com/budgetapp/
+//budgetapp/
 	handleExist(){
 		
 		var budgetname;
@@ -234,7 +235,7 @@ export default class More extends Component{
 			 var jwt = localStorage.jwt;
 			 this.loading();
 			 const req = email+"&^%"+jwt+"&^%"+this.state.edit+"&^%"+budgetname;
-			fetch("https://novling.000webhostapp.com/budgetapp/sharexist.php",{
+			fetch("budgetapp/sharexist.php",{
 				method:"POST",
 				body:req,
 			})
@@ -300,42 +301,53 @@ export default class More extends Component{
 	}
 	componentDidMount(){
 	if(localStorage.budgetuserset=="true"&&localStorage.jwt!=undefined&&localStorage.budgetuser!=undefined&&localStorage.budgetuser!=''&&localStorage.jwt!=''){
-
+				document.getElementById("more").style.display="block";
+				document.getElementById("bell").style.display="block";
 			}
 			else {
 				this.props.history.push("/app");
 			}
 	}
+	handleBack(){
+		console.log(this.props.history);
+		this.props.history.goBack();
+		
+	}
 	render(){
 			return (
-				<main>
+				<main className="moremain">
+				<div className="backbtn">
+					<i className="fa fa-arrow-left" onClick={this.handleBack}></i>
+					<span>Back</span>
+				</div>
 				<div className="allbudgets">
+						<div className="budget" style={{"textAlign":"center"}}>
 				<Link to="/shared">
-						<div className="budget" style={{"textAlign":"center"}}>
-							<span className="itemname"><i className="fa fa-user"></i><i className="fa fa-share"></i> Shared Budgets</span>
-						</div>
+							<i className="fa fa-share"></i>
+							<span className="itemname"> Shared Budgets</span>
+							<label>Budgets you've shared with people</label>
 					</Link>
+						</div>
 					
+						<div className="budget" style={{"textAlign":"center"}}>
 				<a onClick={this.handleShare}>
-						<div className="budget" style={{"textAlign":"center"}}>
-							<span className="itemname"><i className="fa fa-share"></i> Share your budget</span>
-						</div>
+							<i className="fa fa-user"></i>
+							<span className="itemname"> Share your budget</span>
+							<label>Share the budget with people</label>
 				</a>
-					
-				<Link to="/budget/Nw==">
-						<div className="budget" style={{"textAlign":"center"}}>
-							<span className="itemname"><i className="fa fa-user"></i> Customer Care/Support</span>
 						</div>
-				</Link>
 					
+						<div className="budget" style={{"textAlign":"center"}}>
 					<Link to="/logout">
-						<div className="budget" style={{"textAlign":"center"}}>
-							<span className="itemname"><i className="fa fa-power-off"></i> Log Out</span>
-						</div>
+							<i className="fa fa-power-off"></i>
+							<span className="itemname"> Log Out</span>
+							<label>Log Out of this account permanently</label>
 					</Link>
+						</div>
 					
 						<div className="budget" style={{"textAlign":"center"}}>
-							<span className="itemname"><i className="fa fa-copyright"></i>2020 <a href="https://twitter.com/swipeinc"> Swipe </a></span>
+						<i className="fa fa-copyright"></i>
+							<span className="itemname"><a href="https://twitter.com/swipeinc"> Swipe </a></span>
 						</div>
 					
 					

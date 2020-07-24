@@ -1,13 +1,7 @@
    export function toast(e){
    		document.getElementById("toast").style.display="block";
    		document.getElementById("toastext").innerHTML=e;
-   		document.getElementById("toast").style.opacity=0.4;
-   		window.setTimeout(()=>{
-   			document.getElementById("toast").style.opacity=0.7;
-   			window.setTimeout(()=>{
    				document.getElementById("toast").style.opacity=1;
-   			},500)
-   		},500)
    		window.setTimeout(()=>{
    			document.getElementById("toast").style.opacity=0;
    			document.getElementById("toast").style.display="none";

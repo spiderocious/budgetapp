@@ -31,6 +31,11 @@ export default class Main extends Component {
 	try{
 		 const userset = localStorage.getItem("budgetuserset");
 					  if(userset===undefined||userset===false||localStorage.budgetuser===""||localStorage.budgetuser==undefined){
+					  	localStorage.removeItem("budgets");
+						localStorage.removeItem("budgetuser");
+						localStorage.removeItem("budgetcount");
+						localStorage.removeItem("budgetuserset");
+						localStorage.removeItem("dur");
 					    this.props.history.push("/");
 
 					  }
@@ -63,7 +68,12 @@ export default class Main extends Component {
 			this.setState({"display":"block"})
 			this.setState({"displaybudgets":"none"})
 		}
-		if(localStorage.getItem("budgetuserset")===undefined){
+		if(localStorage.getItem("budgetuserset")==undefined){
+			localStorage.removeItem("budgets");
+						localStorage.removeItem("budgetuser");
+						localStorage.removeItem("budgetcount");
+						localStorage.removeItem("budgetuserset");
+						localStorage.removeItem("dur");
 			this.props.history.push("/");
 		}
 		else {
@@ -92,7 +102,7 @@ export default class Main extends Component {
 	try{
 	if(!this.state.locked){
 		const budgetcount = localStorage.budgetcount;
-		if(budgetcount===0||budgetcount==="0"){
+		if(budgetcount==0||budgetcount=="0"){
 			this.setState({"display":"block"})
 			this.setState({"displaybudgets":"none"})
 		}
@@ -109,7 +119,7 @@ export default class Main extends Component {
 			const hour = date.getHours();
 			const time = hour+":"+minutes;
 			var ask;
-			if(localStorage.dur===undefined){
+			if(localStorage.dur==undefined){
 				ask = true;
 				
 			}
@@ -119,7 +129,7 @@ export default class Main extends Component {
 				var min = ago[1];
 
 				//console.log(houra,hour)
-				if(houra===hour){
+				if(houra==hour){
 					ask = false;
 					this.setState({locked:false});
 					this.handleTotal();	
@@ -134,8 +144,10 @@ export default class Main extends Component {
 					this.setState({disps:"none"});
 					this.setState({showbud:"block"});
 					document.getElementById("more").style.display="block";
-								document.getElementById("bell").style.display="block";
+					document.getElementById("bell").style.display="block";
+					document.getElementById("addsupbtn").style.display="block";
 		}
+
 		
 		}
 		}
@@ -177,9 +189,15 @@ export default class Main extends Component {
 					const time = hour+":"+minutes;
 					 const userset = localStorage.getItem("budgetuserset");
 					  if(userset==undefined||userset==false||localStorage.budgetuser==""||localStorage.budgetuser==undefined){
-					    this.props.history.push("/");
+						localStorage.removeItem("budgets");
+						localStorage.removeItem("budgetuser");
+						localStorage.removeItem("budgetcount");
+						localStorage.removeItem("budgetuserset");
+						localStorage.removeItem("dur");
+					    this.props.history.push("/start");
 
 					  }
+					  else {
 					const user =JSON.parse(atob(localStorage.budgetuser));
 					var {username,email} = user;
 					 username = atob(username);
@@ -189,15 +207,15 @@ export default class Main extends Component {
 					document.getElementById("submitbtn").innerHTML="<i class='fa fa-spinner fa-spin'></i>";
 					//this.loading();
 					var jwt = localStorage.jwt;
-					fetch("https://novling.000webhostapp.com/budgetapp/valid.php",{
+					fetch("budgetapp/valid.php",{
 						method:"POST",
 						body:jwt+"*&~"+answer,
 					})
 					.then(response=>response.json())
 					.then((data)=>{
 						//console.log(data);
-						if(data.code===200||data.code==="200"){
-							localStorage.setItem("jwt",data.token);
+						if(data.code==200||data.code=="200"){
+								localStorage.setItem("jwt",data.token);
 								say();
 								this.setState({locked:false});
 							//	this.handleSigned();
@@ -209,13 +227,18 @@ export default class Main extends Component {
 								document.getElementById("more").style.display="block";
 								document.getElementById("bell").style.display="block";
 								this.setState({showbud:"block"});
+								document.getElementById("addsupbtn").style.display="block";
 								this.setState({displayload:"none"});
 						}
-						else if(data.code===400){
+						else if(data.code==400){
 							toast(data.token);
 							localStorage.removeItem("budgetuserset");
 							this.props.history.push("/");
-					
+						}
+						else if(data.code==203){
+							toast(data.text);
+							localStorage.setItem("jwt",data.token);
+							document.getElementById("submitbtn").innerHTML='<i class="fa fa-arrow-right"></i>';
 						}
 						else {
 							this.handleSigned();
@@ -227,7 +250,9 @@ export default class Main extends Component {
 					})
 					.catch((err)=>{
 						console.log(err);
+						document.getElementById("submitbtn").innerHTML='<i class="fa fa-arrow-right"></i>';
 					})
+				}
 		}
 		else {
 			toast("Password must be 6 characters or more");
@@ -240,7 +265,7 @@ export default class Main extends Component {
 			<div className="formdiv row" style={{"display":this.state.disps}}>
 			<header className="formhead">
 				<img src="logo.png" height="50" width="50"/>
-				
+				  <Link to="/logout" className="flink">Log Out</Link>
 			</header>
 				<div className="container">
 					<div className="col-md-12">
@@ -264,7 +289,7 @@ export default class Main extends Component {
 					<span className="shownot" style={{"display":this.state.display}}>
 						You've not added any item yet,Hit the ADD button to get started
 					</span>
-					<div className="allbudgets">
+					<div className="allbudgets mainbudget">
 						<Budgets />
 						
 						

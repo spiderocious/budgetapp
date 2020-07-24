@@ -31,16 +31,17 @@ login(pass,email,username){
 	//console.log(password);
 	var password = btoa(pass);
 	const toback = atob(email)+":;"+atob(username)+":;"+password;
-   	fetch("https://novling.000webhostapp.com/budgetapp/save.php",{
+   	fetch("budgetapp/save.php",{
    		method:"POST",
    		body:toback,
 
    	})
    	.then(response=>response.json())
    	.then((data)=>{
-   		let code = data.code;
       closemodal();
+   		let code = data.code;
    		if(code==200){
+        toast(data.text);
    		//	console.log(data.token);
    		const user = JSON.stringify({"username":username,"email":email});
    		localStorage.setItem("budgetuserset",true);
@@ -67,16 +68,7 @@ login(pass,email,username){
    		}
    	})
    	.catch((err)=>{
-   		Swal.fire({
-		icon:'error',
-		text:err,
-		showConfirmButton:false,
-		allowOutsideClick:true,
-		showCloseButton:true,
-	})
-	.then((data)=>{
-		this.props.history.push("/");
-	})
+   		toast(err);
    	})
   
 }
@@ -132,7 +124,7 @@ componentDidMount(){
 //    	const username =  btoa(answers[1]);
 //    	const email = btoa(answers[0]);
 //    	this.loading();
-//    	fetch("https://novling.000webhostapp.com/budgetapp/signup.php",{
+//    	fetch("budgetapp/signup.php",{
 //    		method:'POST',
 //    		body:answers[0],
 //    	})
@@ -341,7 +333,7 @@ handleUsername(username,nusername,nemail,password){
   else {
 
     const req = username;
-    fetch("https://novling.000webhostapp.com/budgetapp/username.php",{
+    fetch("budgetapp/username.php",{
       method:"POST",
       body:req,
     })
@@ -424,7 +416,7 @@ catch(err){
 }
 checkup(email){
 
-    fetch("https://novling.000webhostapp.com/budgetapp/signup.php",{
+    fetch("budgetapp/signup.php",{
        method:'POST',
        body:email,
      })
@@ -511,9 +503,8 @@ proceed(res,email){
 }
 sendlogin(email,password){
   say();
-  this.talk("sending");
           let nd = email+"&^%"+btoa(password);
-        fetch("https://novling.000webhostapp.com//budgetapp/login.php",{
+        fetch("budgetapp/login.php",{
           method:"POST",
           body:nd,
         })

@@ -32,7 +32,7 @@ export default class shared extends Component{
 			 var jwt = localStorage.jwt;
 			 var req = email+"&^%"+jwt;
 		
-			fetch("https://novling.000webhostapp.com/budgetapp/shares.php",{
+			fetch("budgetapp/shares.php",{
 				method:"POST",
 				body:req,
 			})
@@ -41,7 +41,15 @@ export default class shared extends Component{
 				if(data.code==200){
 					this.setState({loading:'none'});
 					this.setState({budgets:data.budgets});
-					console.log(this.state.budgets);
+					//console.log(this.state.budgets);
+				}
+				else if(data.code==203){
+					Swal.fire({
+						icon:"error",
+						text:data.token,
+						showConfirmButton:false,
+						showCancelButton:true,
+					})
 				}
 				else {
 					throw data.token;

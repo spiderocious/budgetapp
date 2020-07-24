@@ -42,10 +42,10 @@ export default class shared extends Component{
    }
    handleAdd(){
    	 //console.log("add new to this budget");
-   	 if(this.state.editaccess===1){
+   	 if(this.state.editaccess==1){
    	 		
    	 		const username = this.state.username;
-   	 		if(username.trim()===""||this.state.email===""||localStorage.jwt===""||localStorage.jwt===undefined){
+   	 		if(username.trim()==""||this.state.email==""||localStorage.jwt==""||localStorage.jwt==undefined){
    	 			//a new user that needs to sign in
    	 			Swal.fire({
    	 				text:'You need to log in to make changes to this budget',
@@ -175,10 +175,10 @@ export default class shared extends Component{
 			const name = arr[0];
 			const price = arr[1] ;
 			const quantity = arr[2];
-			 if(price===0||price==="0"){
+			 if(price==0||price=="0"){
 						throw "Price must be greater than zero(0)";
 			}
-			else if(quantity===0||quantity==="0"){
+			else if(quantity==0||quantity=="0"){
 				throw 'Quantity must be more than zero(0)';
 			}
 			var newarr =  [name,price,quantity];
@@ -190,7 +190,7 @@ export default class shared extends Component{
 					else if(item.indexOf("~")>-1){
 						throw "Invalid Item details";
 					}
-					else if(price===0||price==="0"){
+					else if(price==0||price=="0"){
 						throw "Price must be greater than zero(0)"
 					}
 				}
@@ -207,7 +207,7 @@ export default class shared extends Component{
 			const obj =  name+"&^%"+price+"&^%"+quantity+"&^%"+this.state.req;
 			//console.log(obj);
 			this.loading();
-			fetch("https://novling.000webhostapp.com/budgetapp/addbudgets.php",{
+			fetch("budgetapp/addbudgets.php",{
 				method:"POST",
 				body:obj,	
 			})
@@ -215,13 +215,13 @@ export default class shared extends Component{
 			.then((data)=>{
 				//console.log(data);
 				var ans;
-				if(data.type===1){
+				if(data.type==1){
 					 ans = name+' has been added to budget successfully';
 				}
 				else {
 					 ans = name+' has been added to budget successfully,Your budget will be reviewed by the budget admin and would be added to the main list';
 				}
-				if(data.code===200){
+				if(data.code==200){
 					Swal.fire({
 				icon:'success',
 				showConfirmButton:false,
@@ -278,7 +278,7 @@ export default class shared extends Component{
 		window.setInterval(()=>{
 			var a = window.location.href;
 			var b = a.split("/");
-			if(b.length===6){
+			if(b.length==6){
 				if(a.indexOf("shared")>0){
 				if(count<5){
 				this.startload();
@@ -298,7 +298,7 @@ export default class shared extends Component{
 		this.setState({code:code,link:link});
 		//fetch budget details 
 		 var req;
-		if(localStorage.budgetuserset==="true"){
+		if(localStorage.budgetuserset=="true"){
 		const user =JSON.parse(atob(localStorage.budgetuser));
 			var {username,email} = user;
 			 username = atob(username);
@@ -311,19 +311,19 @@ export default class shared extends Component{
 			req = "0"+"&^%"+"0"+"&^%"+code;
 				this.setState({newuser:1});
 			}
-			fetch("https://novling.000webhostapp.com/budgetapp/shared.php",{
+			fetch("budgetapp/shared.php",{
 				method:"POST",
 				body:req,
 			})
 			.then(response=>response.json())
 			.then((data)=>{
 				//console.log(data);
-				if(data.code===200){
+				if(data.code==200){
 					const owner = data.isowner;
 					const editaccess = data.editaccess;
 					const budgetname = data.budgetname;
 					this.setState({budgetname:budgetname});
-					if(editaccess===1||owner===1){
+					if(editaccess==1||owner==1){
 						this.setState({btnadd:'block'});
 						this.setState({editaccess:1});
 					}
@@ -331,7 +331,7 @@ export default class shared extends Component{
 						this.setState({btnadd:'none'});
 						this.setState({editaccess:0});
 					}
-					if(owner===1){
+					if(owner==1){
 						this.setState({ownerscorner:'block'});
 						this.setState({admin:1});
 						this.fetchadbud(true);
@@ -363,7 +363,7 @@ export default class shared extends Component{
 		//fetch shared budgets 
 		try{
 		this.setState({dispload:"table-row"});
-		if(this.state.admin===1){
+		if(this.state.admin==1){
 			const user =JSON.parse(atob(localStorage.budgetuser));
 		
 			var {username,email} = user;
@@ -372,7 +372,7 @@ export default class shared extends Component{
 			 var req = email+"&^%"+jwt+"&^%"+this.state.code;
 			
 			//var a = localStorage.jwt;
-		fetch("https://novling.000webhostapp.com/budgetapp/budgetreview.php",{
+		fetch("budgetapp/budgetreview.php",{
 				method:"POST",
 				body:req,
 			})
@@ -380,12 +380,12 @@ export default class shared extends Component{
 			.then((data)=>{
 				this.setState({dispload:"none"});
 				//console.log(data);
-				if(data.code===200){
+				if(data.code==200){
 					console.log(data.budgets);
 					this.setState({review:data.budgets});
 					this.subscribe(true);
 				}
-				else if(data.code===203){
+				else if(data.code==203){
 					this.setState({nolist:"block",msg:data.token});
 					this.subscribe(true);
 				}
@@ -422,13 +422,13 @@ export default class shared extends Component{
 		document.getElementById(e).innerHTML="<i class='fa fa-spinner fa-spin'></i> Adding";
 		const req = this.state.req+"&^%"+e;
 		document.getElementById(e).disabled=true;
-		fetch("https://novling.000webhostapp.com/budgetapp/addtolist.php",{
+		fetch("budgetapp/addtolist.php",{
 				method:"POST",
 				body:req,
 			})
 			.then(response=>response.json())
 			.then((data)=>{
-				if(data.code===200){
+				if(data.code==200){
 					this.toast(data.token);
 					var ide = e+"id";
 					document.getElementById(ide).style.display="none";
@@ -467,7 +467,7 @@ export default class shared extends Component{
 			
 			//var a = localStorage.jwt;
 		}
-		else if(localStorage.budgetuserset==="true"){
+		else if(localStorage.budgetuserset=="true"){
 			const user =JSON.parse(atob(localStorage.budgetuser));
 			var {username,email} = user;
 			 email = atob(email);
@@ -478,14 +478,14 @@ export default class shared extends Component{
 			var req = 0+"&^%"+0+"&^%"+this.state.code;
 		}
 		this.setState({req:req});
-		fetch("https://novling.000webhostapp.com/budgetapp/budgetshared.php",{
+		fetch("budgetapp/budgetshared.php",{
 				method:"POST",
 				body:req,
 			})
 			.then(response=>response.json())
 			.then((data)=>{
 				this.setState({loading:"none"})
-			if(data.code===200){
+			if(data.code==200){
 				const budgets = data.budgets;
 				this.setState({budgets:budgets});
 				Swal.fire({
@@ -504,7 +504,7 @@ export default class shared extends Component{
 
 				},2000);
 			}
-			else if(data.code===203){
+			else if(data.code==203){
 			//	throw data.token;
 				Swal.fire({
 				showConfirmButton:false,
@@ -544,7 +544,7 @@ export default class shared extends Component{
 					</div>
 				</div>
 			</nav>
-			<div className="allbudgets">
+			<div className="allbudgets sharedbudgets">
 			<div className="budget col-md-8  text-center">
 							{this.state.budgetname}
 						</div>

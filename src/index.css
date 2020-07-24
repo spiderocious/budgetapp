@@ -47,7 +47,7 @@ code {
       font-style: normal;
     }
     span.itemname.loading {
-    color: #ffc107 !important;
+    color: #d18 !important;
     animation-name:load;
     animation-iteration-count: infinite;
     animation-duration: .6s;
@@ -71,7 +71,7 @@ code {
 @keyframes load{
   0%{
       opacity:0.6;
-      color: #ffc107;
+      color: #d18;
   }
   50%{
     color: #000;
@@ -83,7 +83,7 @@ code {
   }
   100%{
     opacity: 0.2;
-    color: #ffc107;
+    color: #d18;
   }
 }
 .reviewtb{
@@ -91,12 +91,21 @@ code {
   margin: 10px;
 }
 .reviewtb tr {
-  border-bottom: 2px solid #ffc107;
+  border-bottom: 2px solid #d18;
 }
 .bell{
   position: absolute;
   right: 15%;
   display: none;
+  font-weight: 300;
+    font-size: 20px;
+    color: #ffffff;
+  padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    line-height: inherit;
+    font-family: acme;
+    white-space: nowrap;
 }
 .col-md-6.bbtn {
     color: #fff;
@@ -110,9 +119,9 @@ code {
 }
 .bbtn.using {
   background: #ffffff !important;
-  color: #ffc107 !important;
+  color: #d18 !important;
 
-  border-bottom:1px solid #ffc107;
+  border-bottom:1px solid #d18;
 }
 .icon{
   font-size: 22px;
@@ -120,7 +129,7 @@ code {
 main nav{
   position: fixed;
     top: 9%;
-    background: #ffc100;
+    background: #d18;
     width: 100%;
     right: 0;
     left: 0;
@@ -132,10 +141,10 @@ main nav{
 }
 
 .bbtn.using:hover{
-   background: #ffc107 !important;
+   background: #d18 !important;
    color: #ffffff !important;
 }
 .bbtn:hover{
   background: #ffffff !important;
-  color: #ffc107 !important;
+  color: #d18 !important;
 }

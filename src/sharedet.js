@@ -31,7 +31,7 @@ handleRevoke(){
 		const jwt = this.state.jwt;
 		const email = this.state.email;
 		 const req = email+"&^%"+jwt+"&^%"+code;
-			fetch("https://novling.000webhostapp.com/budgetapp/revoke.php",{
+			fetch("budgetapp/revoke.php",{
 				method:"POST",
 				body:req,
 			})
@@ -88,7 +88,7 @@ handleRevoke(){
 			 var jwt = localStorage.jwt;
 			 this.setState({email:email,jwt:jwt,code:budgetid});
 			 const req = email+"&^%"+jwt+"&^%"+budgetid;
-			fetch("https://novling.000webhostapp.com/budgetapp/sharedetails.php",{
+			fetch("budgetapp/sharedetails.php",{
 				method:"POST",
 				body:req,
 			})

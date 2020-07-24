@@ -1,10 +1,24 @@
 import React,{Component} from 'react';
 import Swal from 'sweetalert2';
-class Details extends Component{
+import {say,closemodal} from './toast';
+import {Link} from 'react-router-dom';
 
-	loading(){
+class Details extends Component{
+	constructor(props){
+		super();
+		this.state  = {
+			req:'',
+			name:''
+		}
+		this.handleDelete = this.handleDelete.bind(this);
+		this.handleBack = this.handleBack.bind(this);
+	}
+	loading(e){
+		if(e==undefined){
+			e = 'Loading';
+		}
 	return	Swal.fire({
-   		text:'loading',
+   		text:e,
    		footer:"<i class='fa fa-spinner fa-spin'></i>",	
    		showCancelButton:false,
    		allowOutsideClick:false,
@@ -27,43 +41,54 @@ class Details extends Component{
 			this.props.history.push("/");
 		}
 		else {
-			this.loading();
+			say();
 				const user =JSON.parse(atob(localStorage.budgetuser));
 			var {username,email} = user;
 			 username = atob(username);
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt+"&^%"+budgetid;
-			fetch("https://novling.000webhostapp.com/budgetapp/details.php",{
+			 this.setState({req:req});
+			fetch("budgetapp/details.php",{
 				method:"POST",
 				body:req,
 			})
 			.then(response=>response.json())
 			.then((data)=>{
-				console.log(data);
+				//console.log(data);
 				if(data.code==200){
 			let name = data.budgetname;
 			let price = data.budgetprice;
 			let quantity = data.budgetquantity;
-			Swal.fire({
-				html:"Item: "+name+"<br> Price : &#8358;"+price+"<br> Quantity: "+quantity,
-				confirmButtonText:'Delete',
-				showCancelButton:false,
-				allowOutsideClick:true,
-				showCloseButton:true,
-				confirmButtonColor:'red',
-				customClass:{
-					confirmButton:'btn-danger',
-				},
-				backdrop:'rgba(0,0,0,0.4)',
+			this.setState({name:name,price:price,quantity:quantity});
+			closemodal();
+				}
+				else {
+					throw data.token;
+				}
 			})
-			.then((result)=>{
-
-				if(result.value){
-					this.loading();
+			.catch((err)=>{
+				Swal.fire({
+				icon:'error',
+				showConfirmButton:false,
+				text:err,
+				timer:2000,
+			})
+			.then((mov)=>{
+				console.log(err);
+				this.props.history.push("/");
+			})
+			//	console.log(err);
+			})
+		}
+	}
+handleDelete(){
+		this.loading("Deleting...");
+		var req = this.state.req;
+		var name = this.state.name;
 					//delete operation
 				//console.log("delete");	
-				fetch("https://novling.000webhostapp.com/budgetapp/delete.php",{
+				fetch("budgetapp/delete.php",{
 				method:"POST",
 				body:req,
 			})
@@ -92,37 +117,54 @@ class Details extends Component{
 					throw data.token;
 				}
 			})
-
-			
-				}
-				else {
-					this.props.history.push("/app");
-				}
-			})
-				}
-				else {
-					throw data.token;
-				}
-			})
-			.catch((err)=>{
-				Swal.fire({
-				icon:'error',
-				showConfirmButton:false,
-				text:err,
-				timer:2000,
-			})
-			.then((mov)=>{
-				console.log(err);
-				this.props.history.push("/");
-			})
-			//	console.log(err);
-			})
-		}
-	}
-
+}
+handleBack(){
+	this.props.history.goBack();
+}
 	render(){
 		return (
-				<span></span>
+			<React.Fragment>
+			<section className="topnav" id="topnav">
+				<span className="pagename" id="pagename" onClick={this.handleBack}><i className='fa fa-arrow-left'></i> Details</span>
+				
+			</section>
+				<main>
+					<div className="allbudgets">
+						<div className="budet">
+							<div className="col-md-12">
+								<span>Name</span>
+								<h4>{this.state.name}</h4>
+							</div>
+							<div className="col-md-12 detarea">
+							<div className="col-md-6 pricebord">
+								<span>
+									Quantity
+								</span>
+								<h4>{this.state.quantity}</h4>
+							</div>
+							<div className="col-md-6">
+								<span>
+									Price per unit 
+								</span>
+								<h4>{this.state.price}</h4>
+							</div>
+							</div>
+						</div>
+						
+						<div className="budet">
+						<div className="col-md-12 detarea">
+						<div className="col-md-6">
+							<span className="currency">N</span>{this.state.price*this.state.quantity}
+						</div>
+						<div className="col-md-6">
+							<button className="deletebtn" onClick={this.handleDelete}><i className="fa fa-trash"></i></button>
+						</div>
+
+						</div>
+						</div>
+					</div>
+				</main>
+			</React.Fragment>
 		)
 	}
 }

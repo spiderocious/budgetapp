@@ -17,6 +17,7 @@ import Shares from './shares';
 import Sharedet from './sharedet';
 import Notify from './notifications';
 import ShareDetails from './ssh';
+import Verify from './verify';
 
 class App extends Component  {
 
@@ -29,6 +30,7 @@ render(){
     <Route exact path="/" component={Budgets}/>
     <Route path="/start" component={Start}/>
     <Route path="/shared/:code" component={Shared}/>
+    <Route path="/verify/:verifycode" component={Verify}/>
     <Route path="/app" component={Main}/>
     <Route path="/add" component={Add}/>
     <Route path="/more" component={More}/>

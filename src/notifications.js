@@ -20,19 +20,23 @@ export default class Notifications extends Component{
 			allowOutsideClick:false,
 
 		})
+		if(localStorage.getItem("budgetuser")==undefined){
+			this.props.history.push("/");
+		}
 		const user =JSON.parse(atob(localStorage.budgetuser));
 			var {username,email} = user;
 			 username = atob(username);
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt;
-			fetch("https://novling.000webhostapp.com/budgetapp/notifications.php",{
+			fetch("budgetapp/notifications.php",{
 				method:"POST",
 				body:req,
 			})
 			.then(response=>response.json())
 			.then((data)=>{
-			
+				document.getElementById("more").style.display="block";
+				document.getElementById("bell").style.display="block";
 				if(data.code==400||data.code==404||data.code==500){
 					throw data.token;
 				}
@@ -101,13 +105,7 @@ export default class Notifications extends Component{
 						}
 					})
 				}
-				<div className="budget" style={{"textAlign":"center"}}>
-					<span className="itemname">Debayo sent you an invite for team-budget</span>
-				</div>
-
-				<div className="budget" style={{"textAlign":"center"}}>
-					<span className="itemname">Your budget (jollof rice) was accepted by team-picnic-budget</span>
-				</div>
+			
 				
 				</div>
 			

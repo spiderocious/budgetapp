@@ -1,6 +1,6 @@
 main{
-	margin-top: 20vh;
-	margin-left: 10vw;
+	margin-top: 10vh;
+	margin-left: 5vw;
 }
 main .shownot{
 	color: #000;
@@ -8,22 +8,25 @@ main .shownot{
 }
 @media(max-width: 500px){
 	main{
-		margin-left: 5vw !important;
+		margin-left: 0vw !important;
 
 	}
 	.allbudgets{
-		width: 95% !important;
-    margin-left: 2% !important;
+		width: 100% !important;
+    margin-left: 0% !important;
 	}
 }
 a{
 	color: inherit;
 	text-decoration: none;
 }
+.budget.col-md-8.text-center {
+    margin-top: 5vh;
+}
 .btn-add{
 outline: none;
-    background: #ffc107;
-    color: #000;
+    background: #d18;
+    color: #fff;
     margin: 0 auto;
     border: none;
     border-radius: 50%;
@@ -44,22 +47,36 @@ outline: none;
 	display: none;
 }
 .btn-add:hover{
-	background: rgba(0,0,0,0.8);
-	color: #fff;
+	background: #fff;
+	color: #d18;
 }
 .btn-add i{
 	font-size: 21px;
 }
 .allbudgets{
 	margin-top: 3vh;
-	width: 80%;
-	box-shadow:0px 11px 40px -9px rgba(0, 0, 0, 0.7);
+	width: 90%;
 	border-radius: 15px;
 	padding: 20px;
 }
+.hero-wrap{
+	position: fixed;
+	z-index: 10;
+	overflow:scroll;
+	padding-bottom: 10vh;
+}
+.topnav{
+	display: none;
+
+}
+#supnote{
+	color: #d18;
+	font-family: abel;
+	font-size: 12px;
+}
 .budget {
 	padding-top: 15px;
-	border-top: 1px solid #000;
+	/*border-top: 1px solid #000;*/
 	padding: 10px;
 	transition: .5s;
 	cursor: pointer;
@@ -67,7 +84,8 @@ outline: none;
 	/*background: rgba(0,0,0,0.1);*/
 }
 .budget:last-of-type{
-	border-bottom: 1px solid #000;
+	border-bottom: 1px solid lightgrey;
+	border-width: 50%;
 }
 .budget .itemname{
 	color: #000;
@@ -79,7 +97,7 @@ outline: none;
 
 }
 .budget .itemprice{
-	color: #ffc107;
+	color: #d18;
 	float: right;
 	font-weight: bold;
 	font-family: abel;
