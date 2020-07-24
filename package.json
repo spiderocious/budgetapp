@@ -1,7 +1,7 @@
 {
   "name": "BudgetApp",
   "version": "0.1.0",
-  "proxy": { "/*": { "target": "http://novling.000webhostapp.com/" } },
+  "proxy": "https://novling.000webhostapp.com/",
   "secure": false,
   "private": true,
   "dependencies": {
