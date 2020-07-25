@@ -25,21 +25,23 @@ export default class Verify extends Component{
 			this.sendcode(verified);
 		}
 	},5000);
-		window.setInterval(()=>{
-			if(this.state.loading){
-			 document.getElementById("loader").style.display="block";
-			}
-			else {
-				 document.getElementById("loader").style.display="none";
-			}
-			
-			},1000);
+		
 	}
-
+loading(){
+	return	Swal.fire({
+   		text:'loading',
+   		footer:"<i class='fa fa-spinner fa-spin'></i>",	
+   		showCancelButton:false,
+   		allowOutsideClick:false,
+   		showConfirmButton:false,
+   	})
+   
+}
 	sendcode(verified){
 		const req = verified;
 		// document.getElementById("loader").style.display="block";
 		toast("Verifying Email Address <i class='fa fa-spinner fa-spin'></i>");
+		this.loading();
 		fetch("https://novling.000webhostapp.com/budgetapp/verify.php",{
 			method:"POST",
 			body:req
