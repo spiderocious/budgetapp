@@ -145,7 +145,7 @@ export default class More extends Component{
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt+"&^%"+this.state.edit+"&^%"+budgetname;
 			 this.loading();
-			fetch("budgetapp/sharenew.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/sharenew.php",{
 				method:"POST",
 				body:req,
 			})
@@ -200,7 +200,7 @@ export default class More extends Component{
 			}
 		})
 	}
-//budgetapp/
+//https://novling.000webhostapp.com/budgetapp/
 	handleExist(){
 		
 		var budgetname;
@@ -235,7 +235,7 @@ export default class More extends Component{
 			 var jwt = localStorage.jwt;
 			 this.loading();
 			 const req = email+"&^%"+jwt+"&^%"+this.state.edit+"&^%"+budgetname;
-			fetch("budgetapp/sharexist.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/sharexist.php",{
 				method:"POST",
 				body:req,
 			})

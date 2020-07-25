@@ -207,7 +207,7 @@ export default class Main extends Component {
 					document.getElementById("submitbtn").innerHTML="<i class='fa fa-spinner fa-spin'></i>";
 					//this.loading();
 					var jwt = localStorage.jwt;
-					fetch("budgetapp/valid.php",{
+					fetch("https://novling.000webhostapp.com/budgetapp/valid.php",{
 						method:"POST",
 						body:jwt+"*&~"+answer,
 					})

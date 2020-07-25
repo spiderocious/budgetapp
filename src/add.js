@@ -221,7 +221,7 @@ verify(value,type){
 			const obj =  name+"@"+price+"@"+quantity+"@"+jwt;
 			//console.log(obj);
 			this.loading("Saving Budget");
-			fetch("budgetapp/addbudget.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/addbudget.php",{
 				method:"POST",
 				body:obj,	
 			})

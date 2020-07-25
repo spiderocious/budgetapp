@@ -49,7 +49,7 @@ class Details extends Component{
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt+"&^%"+budgetid;
 			 this.setState({req:req});
-			fetch("budgetapp/details.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/details.php",{
 				method:"POST",
 				body:req,
 			})
@@ -88,7 +88,7 @@ handleDelete(){
 		var name = this.state.name;
 					//delete operation
 				//console.log("delete");	
-				fetch("budgetapp/delete.php",{
+				fetch("https://novling.000webhostapp.com/budgetapp/delete.php",{
 				method:"POST",
 				body:req,
 			})

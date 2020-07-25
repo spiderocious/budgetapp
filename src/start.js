@@ -31,7 +31,7 @@ login(pass,email,username){
 	//console.log(password);
 	var password = btoa(pass);
 	const toback = atob(email)+":;"+atob(username)+":;"+password;
-   	fetch("budgetapp/save.php",{
+   	fetch("https://novling.000webhostapp.com/budgetapp/save.php",{
    		method:"POST",
    		body:toback,
 
@@ -124,7 +124,7 @@ componentDidMount(){
 //    	const username =  btoa(answers[1]);
 //    	const email = btoa(answers[0]);
 //    	this.loading();
-//    	fetch("budgetapp/signup.php",{
+//    	fetch("https://novling.000webhostapp.com/budgetapp/signup.php",{
 //    		method:'POST',
 //    		body:answers[0],
 //    	})
@@ -333,7 +333,7 @@ handleUsername(username,nusername,nemail,password){
   else {
 
     const req = username;
-    fetch("budgetapp/username.php",{
+    fetch("https://novling.000webhostapp.com/budgetapp/username.php",{
       method:"POST",
       body:req,
     })
@@ -416,7 +416,7 @@ catch(err){
 }
 checkup(email){
 
-    fetch("budgetapp/signup.php",{
+    fetch("https://novling.000webhostapp.com/budgetapp/signup.php",{
        method:'POST',
        body:email,
      })
@@ -504,7 +504,7 @@ proceed(res,email){
 sendlogin(email,password){
   say();
           let nd = email+"&^%"+btoa(password);
-        fetch("budgetapp/login.php",{
+        fetch("https://novling.000webhostapp.com/budgetapp/login.php",{
           method:"POST",
           body:nd,
         })

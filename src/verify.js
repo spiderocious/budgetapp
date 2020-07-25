@@ -40,7 +40,7 @@ export default class Verify extends Component{
 		const req = verified;
 		// document.getElementById("loader").style.display="block";
 		toast("Verifying Email Address <i class='fa fa-spinner fa-spin'></i>");
-		fetch("budgetapp/verify.php",{
+		fetch("https://novling.000webhostapp.com/budgetapp/verify.php",{
 			method:"POST",
 			body:req
 		})

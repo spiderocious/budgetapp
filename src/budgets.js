@@ -24,7 +24,7 @@ export default class Budgets extends Component{
 			 email = atob(email);
 			 var jwt = localStorage.jwt;
 			 const req = email+"&^%"+jwt;
-			fetch("budgetapp/budgets.php",{
+			fetch("https://novling.000webhostapp.com/budgetapp/budgets.php",{
 				method:"POST",
 				body:req,
 			})
