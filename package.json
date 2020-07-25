@@ -2,7 +2,7 @@
   "name": "BudgetApp",
   "version": "0.1.0",
   "proxy": "https://novling.000webhostapp.com/",
-  "secure": false,
+  "secure": true,
   "private": true,
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
